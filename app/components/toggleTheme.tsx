@@ -2,11 +2,16 @@
 import React, { useEffect } from "react";
 
 const ToggleTheme = () => {
-  const localTheme = localStorage.getItem("theme") || "light";
+  const localTheme =
+    typeof window !== "undefined"
+      ? localStorage.getItem("theme") || "light"
+      : "light";
   const [theme, setTheme] = React.useState(localTheme);
   const changeTheme = (themeName: string) => {
     setTheme(themeName);
-    localStorage.setItem("theme", themeName);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", themeName);
+    }
     document?.querySelector("html")?.setAttribute("data-theme", themeName);
   };
   // initially set the theme and "listen" for changes to apply them to the HTML tag
